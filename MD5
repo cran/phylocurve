@@ -1,0 +1,17 @@
+3bb0a39d2ab6ed94cd2b462e2ad9647f *DESCRIPTION
+23850c55707ba59ca34ffc5bd174c0e7 *NAMESPACE
+12771d07be6f6236efee4e557747ad9d *R/phylocurve.R
+c8bd4442d2ee0aa457d93f928e418b13 *inst/CITATION
+2e3ba7e3c4d34f8249dd8e83ee95f1ae *man/K.mult.Rd
+bf46c337c1bb3a8a3965f26561977add *man/compare.multivar.rate.mult.Rd
+33c717cf52ca930e6b97d4f735ee7ee1 *man/compare.rate.mult.Rd
+b531e8f5a7bf81aa0dd0126759d41f8d *man/get_aligned_function_data.Rd
+ae236fa4b71035f131c9a03a1c74bbca *man/get_tip_coefficients.Rd
+7cbefdf1dd5819043bb8be5b0d481e2e *man/pgls.mult.Rd
+70fc97f53b250c1672c1f566ebc0d675 *man/phylocurve-package.Rd
+a524cb31f76c2f4919dfc52ef0d9c5b2 *man/phylocurve.Rd
+940f56c8d0531a209f5b04003304d6f5 *man/print.lr.test.Rd
+7ab6ce2cec2cfe566636c8cf763998c5 *man/print.rate.mult.Rd
+58e0a891112943bdaa8fe1e6eb26599c *man/rate.mult.Rd
+217e81e9e470370de2ded840d35cf5c1 *man/sim.curves.Rd
+94f3e0c938e8da215b626ec52fd029a4 *man/sim.mult.Rd

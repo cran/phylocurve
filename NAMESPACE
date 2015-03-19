@@ -1,0 +1,22 @@
+import(ape)
+import(phytools)
+import(phylolm)
+import(geiger)
+import(abind)
+export(compare.multivar.rate.mult,
+       compare.rate.mult,
+       K.mult,
+       get_aligned_function_data,
+       get_tip_coefficients,
+       pgls.mult,
+       phylocurve,
+       rate.mult,
+       sim.mult,
+       sim.curves,
+       
+       print.lr.test,
+       print.rate.mult
+       )
+
+S3method(print, rate.mult)
+S3method(print, lr.test)
