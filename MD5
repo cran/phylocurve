@@ -1,6 +1,6 @@
-158ffbc4e7b2b36cbcc8554c5add8eb8 *DESCRIPTION
+4ffcf74951557dc80acbb0008fcb5e3b *DESCRIPTION
 c36e68b98e3fdd288652077ff27e11c2 *NAMESPACE
-269fed52f4cb7dbd3d0bcf78e4d68afc *R/phylocurve.R
+6747d487fa692fcf00f9b8289924986a *R/phylocurve.R
 c8bd4442d2ee0aa457d93f928e418b13 *inst/CITATION
 bfccfc4304ec005a54d442d3830ce6c6 *man/GP.fit.Rd
 2e3ba7e3c4d34f8249dd8e83ee95f1ae *man/K.mult.Rd
@@ -10,7 +10,7 @@ b531e8f5a7bf81aa0dd0126759d41f8d *man/get_aligned_function_data.Rd
 ae236fa4b71035f131c9a03a1c74bbca *man/get_tip_coefficients.Rd
 b36b574207491ea985810027bbbf4bab *man/nonlinear.fit.Rd
 7cbefdf1dd5819043bb8be5b0d481e2e *man/pgls.mult.Rd
-c04c089733d3cf479a4162243bb331f3 *man/phylocurve-package.Rd
+2a12a08b373b2a12600cd63c16e54d59 *man/phylocurve-package.Rd
 a356cb275d6154cd59ce0bb8ac1efb86 *man/phylocurve.Rd
 55b4f733a04eb92e0e3f7395f9675d2b *man/phylocurve.generalized.Rd
 eb4751dc5d49dd7e7155ad2030ef6a49 *man/phylocurve.trim.Rd
