@@ -1,6 +1,6 @@
 Package: phylocurve
-Version: 2.0.2
-Date: 2016-03-15
+Version: 2.0.6
+Date: 2016-06-14
 Title: Phylogenetic Comparative Methods for High-Dimensional Traits
 Author: Eric W. Goolsby
 Maintainer: Eric W. Goolsby <eric.goolsby.evolution@gmail.com>
@@ -12,6 +12,6 @@ Imports: Rcpp, ape, drc, dtw, geiger, geomorph (>= 3.0.0), GPfit,
         foreach, parallel, grDevices, graphics, stats, utils
 LinkingTo: Rcpp, RcppArmadillo
 NeedsCompilation: yes
-Packaged: 2016-03-16 21:37:29 UTC; Eric
+Packaged: 2016-06-15 03:49:29 UTC; Eric
 Repository: CRAN
-Date/Publication: 2016-03-17 13:50:58
+Date/Publication: 2016-06-15 08:33:01

@@ -408,7 +408,7 @@ print.evo.model <- function(x,...)
 evo.model <- function(tree, Y, fixed.effects = NA, species.groups, trait.groups,
                       model="BM", diag.phylocov=FALSE, method = "Pairwise REML", 
                       force.zero.phylocov=character(), species.id = "species", max.combn = 10000, painted.edges,
-                      ret.level = 2, plot.LL.surface = TRUE, par.init.iters = 50, fixed.par = numeric(),
+                      ret.level = 2, plot.LL.surface = FALSE, par.init.iters = 50, fixed.par = numeric(),
                       multirate = FALSE,subset=TRUE)
   # ret.level: 1=logL only, 2=multi rates, 3=full rates
 {
@@ -737,8 +737,8 @@ evo.model <- function(tree, Y, fixed.effects = NA, species.groups, trait.groups,
           YANC <- a_results$root[1,]
           XX <- crossprod(cbind(0,x)) + tcrossprod(c(1,XANC))*suminvV_and_logdV[1]
           betas <- solve(crossprod(x),crossprod(x,a))
-          BETAS <- solve(XX,XY)
           XY <- crossprod(cbind(0,x),a) + tcrossprod(c(1,XANC),YANC)*suminvV_and_logdV[1]
+          BETAS <- solve(XX,XY)
           C <- crossprod(a-x%*%betas) / (nspecies-REML)
           anc <- X1%*%BETAS
         } else
@@ -870,7 +870,7 @@ evo.model <- function(tree, Y, fixed.effects = NA, species.groups, trait.groups,
     if(model!="BM") if((model=="OUfixedRoot" | model=="OUrandomRoot") & !is.ultrametric(tree) & nrates.species>1) stop("Non-ultrametric trees not currently supported for OU model with multiple species groups.") 
     dis <- pruningwise.distFromRoot(reorder(tree,"pruningwise"))[1:nspecies]
     Tmax <- mean(dis)
-    bounds.default <- matrix(c(1e-7/Tmax,50/Tmax,1e-7/Tmax,50/Tmax,1e-7,1,1e-6,1,1e-5,3,-3/Tmax,0), ncol=2, byrow=TRUE)
+    bounds.default <- matrix(c(1e-7/Tmax,max(50/Tmax,5),1e-7/Tmax,max(50/Tmax,5),1e-7,1,1e-6,1,1e-5,3,min(-4,-3/Tmax),0), ncol=2, byrow=TRUE)
     rownames(bounds.default) <- c("alpha","alpha","lambda","kappa","delta","rate")
     colnames(bounds.default) <- c("min","max")
     starting.values.default <- c(0.5/Tmax,0.5/Tmax,0.5,0.5,0.5,-1/Tmax)
@@ -905,13 +905,14 @@ evo.model <- function(tree, Y, fixed.effects = NA, species.groups, trait.groups,
       if(model!="EB") par <- exp(par)
       if(model=="OUrandomRoot" | model=="OUfixedRoot" | model=="OU")
       {
-        temp_args$parameters[[1]] <- par
+        temp_args$parameters <- list(alpha=par)
         temp_tree <- do.call(transf.branch.lengths,temp_args)$tree
       } else
       {
         geiger_args[[3]] <- par
         temp_tree <- do.call(rescale,geiger_args)
       }
+      temp_tree <- reorder(temp_tree,"postorder")
       if(!binary) temp_ditree <- multi2di(temp_tree,random=FALSE) else temp_ditree <- temp_tree
       ret <- try(simple_BM(temp_tree = temp_tree,ditree = temp_ditree,ret_pars = ret_pars),silent=TRUE)
       if(class(ret)=="try-error") return(-.Machine$double.xmax) else return(ret)
@@ -1244,9 +1245,15 @@ K.mult <- function(model,nsim=1000,plot=TRUE)
   sim_null <- sim.model(model = null_model,nsim = nsim)
   sim_alt <- sim.model(model = model,nsim = nsim)
   
+  if(nsim==1)
+  {
+    sim_null$trait_data <- list(sim_null$trait_data)
+    sim_alt$trait_data <- list(sim_alt$trait_data)
+  }
+  
   args <- model$evo.model.args
   args$ret.level <- 3
-  if(args$model!="BM") args$fixed.par <- model1$model.par
+  if(args$model!="BM") args$fixed.par <- model$model.par
   model1 <- do.call(what = evo.model,args = args)
   
   BMtree <- model$evo.model.args$tree
@@ -1443,7 +1450,7 @@ sim.model <- function(model,nsim=1000,return.type="matrix")
   model1SAVE <- model1
   perm_fixed_par_1 <- model1$evo.model.args
   nvar <- ncol(model1$evo.model.args$Y)
-  if(is.null(model1$phylocov))
+  if(is.null(model1$phylocov) | TRUE)
   {
     args <- model1$evo.model.args
     args$ret.level <- 3
@@ -1494,7 +1501,7 @@ sim.model <- function(model,nsim=1000,return.type="matrix")
       colnames(sim1$trait_data[[i]]) <- c(model1SAVE$evo.model.args$species.id,colnames(model1SAVE$evo.model.args$Y))
   }
   
-  if(FLAG) sim1$trait_data <- sim1$trait_data[1]
+  if(nsim==1) sim1$trait_data <- sim1$trait_data[[1]]
   if(class(perm_fixed_par_1$fixed.effects)=="matrix")
   {
     return(list(trait_data=sim1$trait_data,fixed_effects=fixed_effect_1))
@@ -1506,6 +1513,7 @@ sim.model <- function(model,nsim=1000,return.type="matrix")
 
 compare.models <- function(model1,model2,nsim=1000,plot=TRUE,estimate_power=TRUE,parallel=TRUE,conf.int=TRUE)
 {
+  if(nsim<2) parallel <- FALSE
   model1SAVE <- model1
   model2SAVE <- model2
   perm_fixed_par_1 <- model1$evo.model.args
@@ -1527,7 +1535,8 @@ compare.models <- function(model1,model2,nsim=1000,plot=TRUE,estimate_power=TRUE
       model1 <- do.call(what = evo.model,args = args)
     } else model1 <- do.call(what = evo.model,args = args)
   }
-  if(is.null(model2$phylocov))
+  #if(model1$evo.model.args$model!="BM") model1$evo.model.args$fixed.par <- model1$model.par
+  if(is.null(model2$phylocov) | TRUE)
   {
     args <- model2$evo.model.args
     args$ret.level <- 3
@@ -1540,6 +1549,8 @@ compare.models <- function(model1,model2,nsim=1000,plot=TRUE,estimate_power=TRUE
       model2 <- do.call(what = evo.model,args = args)
     } else model2 <- do.call(what = evo.model,args = args)
   }
+  #if(model2$evo.model.args$model!="BM") model2$evo.model.args$fixed.par <- model2$model.par
+  
   tree <- model1$evo.model.args$tree
   fixed_effect_1 <- fixed_effect_2 <- rep(list(NA),nsim)
   if(is.list(model1$phylocov))
@@ -1556,6 +1567,8 @@ compare.models <- function(model1,model2,nsim=1000,plot=TRUE,estimate_power=TRUE
                                       parameters=if(model1$evo.model.args$model=="BM") list("BM") else 
                                         as.list(model1$evo.model.args$fixed.par),nsim=nsim)
   }
+  
+  if(nsim==1) sim1$trait_data <- list(sim1$trait_data)
   
   if(class(perm_fixed_par_1$fixed.effects)=="matrix")
   {
@@ -1582,6 +1595,7 @@ compare.models <- function(model1,model2,nsim=1000,plot=TRUE,estimate_power=TRUE
                                         parameters=if(model2$evo.model.args$model=="BM") list("BM") else as.list(model2$evo.model.args$fixed.par),nsim=nsim)
       
     }
+    if(nsim==1) sim2$trait_data <- list(sim2$trait_data)
     if(class(perm_fixed_par_2$fixed.effects)=="matrix")
     {
       for(i in 1:nsim)
@@ -1871,7 +1885,7 @@ sim.groups <- function(tree,groups,painted.edges,model="BM",parameters=list(),ph
   }
   if(return.type!="matrix") for(j in 1:nsim) Y[[j]] <- data.frame(species=rownames(Y[[j]]),Y[[j]])
   tree <- reorder(tree,"postorder")
-  if(nsim==1) Y <- Y[[j]]
+  #if(nsim==1) Y <- Y[[j]]
   list(trait_data=Y,tree=tree)
   
 }
@@ -2480,9 +2494,10 @@ sim.traits <- function(ntaxa=15,ntraits=4,nreps=1,nmissing=0,tree,v,anc,intraspe
   colnames(Xall) <- paste("V",1:ntraits,sep="")
   if(nreps==1 & nmissing==0 & nsim==1)
   {
-    if(return.type=="matrix") return(list(trait_data=Xall[,,1],tree=perm_tree,sim_tree=tree)) else
-      return(list(trait_data=data.frame(species=rownames(Xall[,,1]),Xall[,,1]),tree=perm_tree,sim_tree=tree))
-  } else if(nreps==1 & nmissing==0) 
+    if(return.type=="matrix") return(list(trait_data=as.matrix(Xall[,,1]),tree=perm_tree,sim_tree=tree)) else
+      return(list(trait_data=data.frame(species=rownames(Xall[,,1,drop=FALSE]),Xall[,,1]),tree=perm_tree,sim_tree=tree))
+  } else 
+  if(nreps==1 & nmissing==0) 
   {
     if(return.type=="matrix")
     {
