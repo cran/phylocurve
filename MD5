@@ -1,8 +1,8 @@
-0d398bb2714961b9d8b09d7cddbb038b *DESCRIPTION
-b1f60256ddff2526d67a681a71bd5c0a *NAMESPACE
-c13238ae13b4fb116e26f98d99e11898 *R/RcppExports.R
+1675cf1e8aeb6d517976d00e1ffc4af6 *DESCRIPTION
+bf58aafaceeea061e3f4c1cf745287ec *NAMESPACE
+bd81e63449db5d2f4fde09d26fef59f1 *R/RcppExports.R
 95815802552c13bf70c3171ddc5dd71d *R/fast_geomorph_functions.R
-86f57d3b5c763c1f8a704ff632fd83a3 *R/phylocurve.R
+ec187d6d80c0dba8e0e50ec57f5e6798 *R/phylocurve.R
 c8bd4442d2ee0aa457d93f928e418b13 *inst/CITATION
 7f7d375d4027d9d28c712030c0c94c6f *man/GP.fit.Rd
 b99b52537623123508cd5ad73cb547a5 *man/K.mult.Rd
@@ -18,7 +18,7 @@ cdcef8d2f41e83302f45b80e84379d34 *man/get.aligned.function.data.Rd
 5191f29e5725f6d6fdbf4790d2110d1b *man/multipic.Rd
 5a1286c8cfd6b53738d0cdd65883b5c7 *man/nonlinear.fit.Rd
 404cc8244e08a15de8879c2d476a87ff *man/paint.edges.Rd
-cd2edb03649a93d8fa9e2b17d5b84ce4 *man/phylocurve-package.Rd
+21adf03fccb9fa17f2afe7970b6cf6f2 *man/phylocurve-package.Rd
 9d13c06a0fbc2a3e9775b7a0a213e956 *man/phylocurve.Rd
 01f7696e561d1b89631ade5dbe7b5c65 *man/phylocurve.generalized.Rd
 9dd3f8486aa739d3755bbe4f342f851a *man/phylocurve.trim.Rd
@@ -30,5 +30,5 @@ cbafa9c181860bb763e2713657ad8482 *man/prep_multipic.Rd
 2c3f5d8dbb7c2c0ff935c39d772df604 *man/ultraFastAnc.Rd
 bcc42aaeb0a69ec1b279b42021751d66 *src/Makevars
 0ddd28eb5b06d3d3c650d26e07b49a77 *src/Makevars.win
-99395035106d6dfdce9d34987289b0eb *src/RcppExports.cpp
+552afd606fb2a0c43ff61b0eb116064e *src/RcppExports.cpp
 a6e5104ff362adcd5afa10428cd0856d *src/phylocurve_rcpp.cpp

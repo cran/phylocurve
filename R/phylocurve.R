@@ -1209,17 +1209,18 @@ pre_parallel <- function()
     return(FALSE)
   }
   tmp <- rownames(installed.packages())
-  if (("doParallel" %in% tmp | "doSNOW" %in% tmp) & "foreach" %in% tmp)
+  #if (("doParallel" %in% tmp | "doSNOW" %in% tmp) & "foreach" %in% tmp)
+  if (("doParallel" %in% tmp) & "foreach" %in% tmp)
   {
-    if(Sys.info()["sysname"] == "Windows" & "doSNOW" %in% tmp)
-    {
-      requireNamespace("doSNOW")
-      return(TRUE)
-    } else if("doParallel" %in% tmp)
-    {
+    #if(Sys.info()["sysname"] == "Windows" & "doSNOW" %in% tmp)
+    #{
+    #  requireNamespace("doSNOW")
+    #  return(TRUE)
+    #} else if("doParallel" %in% tmp)
+    #{
       requireNamespace("doParallel")
       return(TRUE)
-    }
+    #}
   } else return(FALSE)
 }
 
@@ -1265,7 +1266,9 @@ K.mult <- function(model,nsim=1000,plot=TRUE)
     if(!is.null(tree$root.edge)) tree$edge.length <- c(tree$edge.length[1:nedge],tree$root.edge) else tree$edge.length <- c(tree$edge.length[1:nedge],0)
   model$evo.model.args$ret.level <- 3
   new_edge <- matrix(0,nvar,nrow(tree$edge)+1)
-  if(nrow(new_edge)>1) new_trees <- rep(tree,nrow(new_edge)) else new_trees <- list(tree)
+  #if(nrow(new_edge)>1) new_trees <- rep(tree,nrow(new_edge)) else new_trees <- list(tree)
+  if(nrow(new_edge)>1) new_trees <- rep(list(tree),nrow(new_edge)) else new_trees <- list(tree)
+  
   original_heights <- pruningwise.distFromRoot(reorder(tree,"pruningwise"))[1:nspecies]
   new_heights <- matrix(0,nvar,nspecies)
   sum_original_heights <- sum(original_heights)
@@ -1623,9 +1626,11 @@ compare.models <- function(model1,model2,nsim=1000,plot=TRUE,estimate_power=TRUE
         if(pre_parallel())
         {
           ncores <- detectCores()
-          cl <- if(Sys.info()["sysname"] == "Windows") makeCluster(ncores) else makeCluster(ncores)
+          cl <- #if(Sys.info()["sysname"] == "Windows") makeCluster(ncores) else 
+            makeCluster(ncores)
           cat("registering...")
-          if(Sys.info()["sysname"] == "Windows") registerDoSNOW(cl) else registerDoParallel(cl)
+          #if(Sys.info()["sysname"] == "Windows") registerDoSNOW(cl) else 
+            registerDoParallel(cl)
           cat("\nBootstrapping under null model.\n")
           null_sim_LR <- simplify2array(foreach(i=1:nsim) %dopar%
           {
@@ -1867,7 +1872,7 @@ sim.groups <- function(tree,groups,painted.edges,model="BM",parameters=list(),ph
   nedge <- nrow(tree$edge)
   m <- painted.edges
   
-  tree_list <- rep(tree,ngroups)
+  tree_list <- rep(list(tree),ngroups)
   if(ngroups==1) tree_list <- list(tree)
   sims <- vector("list",ngroups)
   for(i in 1:ngroups)
