@@ -56,6 +56,7 @@ require(geomorph)
 ### Example of D-PGLS for high-dimensional data
 data(plethspecies)
 Y.gpa<-gpagen(plethspecies$land)    #GPA-alignment
-procD.pgls(Y.gpa$coords ~ Y.gpa$Csize,plethspecies$phy,iter=1000)
+gdf <- geomorph.data.frame(Y.gpa, phy = plethspecies$phy)
+procD.pgls(coords ~ Csize,data = gdf,plethspecies$phy,iter=1000)
 fast.geomorph.procD.pgls(Y.gpa$coords ~ Y.gpa$Csize,plethspecies$phy)
 }

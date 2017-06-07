@@ -409,7 +409,7 @@ evo.model <- function(tree, Y, fixed.effects = NA, species.groups, trait.groups,
                       model="BM", diag.phylocov=FALSE, method = "Pairwise REML", 
                       force.zero.phylocov=character(), species.id = "species", max.combn = 10000, painted.edges,
                       ret.level = 2, plot.LL.surface = FALSE, par.init.iters = 50, fixed.par = numeric(),
-                      multirate = FALSE,subset=TRUE)
+                      multirate = FALSE,subset=TRUE,bounds)
   # ret.level: 1=logL only, 2=multi rates, 3=full rates
 {
   tree <- reorder(tree,"postorder")
@@ -874,6 +874,15 @@ evo.model <- function(tree, Y, fixed.effects = NA, species.groups, trait.groups,
     rownames(bounds.default) <- c("alpha","alpha","lambda","kappa","delta","rate")
     colnames(bounds.default) <- c("min","max")
     starting.values.default <- c(0.5/Tmax,0.5/Tmax,0.5,0.5,0.5,-1/Tmax)
+    if(!missing(bounds))
+    {
+      bounds.default[,1] <- bounds[1]
+      bounds.default[,2] <- bounds[2]
+      if(any(starting.values.default < bounds[1]) | any(starting.values.default > bounds[1]))
+      {
+        starting.values.default[1:length(starting.values.default)] <- mean(bounds[1:2])
+      }
+    }
     names(starting.values.default) <- c("OUrandomRoot","OUfixedRoot","lambda","kappa","delta","EB")
     model_i <- match(model,names(starting.values.default))
     bounds.default <- bounds.default[model_i,,drop=FALSE]
