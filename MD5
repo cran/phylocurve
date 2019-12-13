@@ -1,8 +1,8 @@
-ccc00741da848ed265237fb62a7b6407 *DESCRIPTION
+6a0de9ab54f1b23a02553b46f30baf00 *DESCRIPTION
 ccf30e631b8322ab982bdd71c18ccfa8 *NAMESPACE
-9a015cddd392f45d8dea1546baced8db *R/RcppExports.R
-6e53f8372dddc6fae2e2a91db9ffc0c6 *R/fast_geomorph_functions.R
-42996a84c2a57efab1eb44a70f0cedee *R/phylocurve.R
+fd2659e784836aa263a8436c952c51d6 *R/RcppExports.R
+8d4b6a1d4afec851915b3516f3149bf8 *R/fast_geomorph_functions.R
+f9a490012561126b84b83b24ed22a43f *R/phylocurve.R
 00fa1a46a1270dc47b56ad12889981d8 *inst/CITATION
 e91cc051b3ea62e9916abc34f07f605f *man/GP.fit.Rd
 2f29568eb6f8d8e6fffa914499f207c5 *man/K.mult.Rd
@@ -27,9 +27,9 @@ e56e387a293235e4f244755783a8d156 *man/prep_multipic.Rd
 1dcde1d116c209b821abfe3c934c325a *man/print.evo.model.Rd
 ee74f0ba2e37cda05e9ce573a475855c *man/sim.curves.Rd
 484c7f46e713e7524df72575dbecf590 *man/sim.traits.Rd
-d548168d3f89dd661120eaa88b9fe177 *man/ultraFastAnc.Rd
+24489777adcdd23af237c1ba38d01344 *man/ultraFastAnc.Rd
 bcc42aaeb0a69ec1b279b42021751d66 *src/Makevars
 0ddd28eb5b06d3d3c650d26e07b49a77 *src/Makevars.win
-552afd606fb2a0c43ff61b0eb116064e *src/RcppExports.cpp
+2f81e14069eed0d30dfc63f3b551bc2a *src/RcppExports.cpp
 a6e5104ff362adcd5afa10428cd0856d *src/phylocurve_rcpp.cpp
 7c22b1b500cab25872924e218f1645f5 *src/registerDynamicSymbol.c
