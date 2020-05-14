@@ -194,7 +194,7 @@ function (phy, A, iter = 1000, ShowPlot = TRUE, method = c("Kmult",
   }
   if (!inherits(phy,"phylo")) 
     stop("tree must be of class 'phylo.'")
-  if (!is.binary.tree(phy)) 
+  if (!is.binary.phylo(phy)) 
     stop("tree is not fully bifurcating.")
   N <- length(phy$tip.label)
   if (N != dim(x)[1]) {
@@ -408,7 +408,7 @@ function (A, gp, phy, Subset = TRUE, method="ML",ShowPlot = TRUE, iter = 1000)
 
 fasterAnc <- function(tree, x, vars = FALSE, CI = FALSE) 
 {
-  if (!is.binary.tree(tree)) 
+  if (!is.binary.phylo(tree)) 
     btree <- multi2di(tree) else btree <- tree
   btree <-reorder(btree,"postorder")
   pY <- prep_multipic(x,phy = btree)
@@ -432,7 +432,7 @@ fasterAnc <- function(tree, x, vars = FALSE, CI = FALSE)
   }
   if(vars || CI) rownames(v) <- 1:M + N
   rownames(anc) <- 1:M + N
-  if (!is.binary.tree(tree)) {
+  if (!is.binary.phylo(tree)) {
     ancNames <- matchNodes(tree, btree)
     anc <- anc[as.character(ancNames[, 2]),]
     rownames(anc) <- ancNames[, 1]
